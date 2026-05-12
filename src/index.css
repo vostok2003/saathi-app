@@ -11,15 +11,38 @@ html {
   font-size: 18px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
+  /* Kill horizontal scroll at the root — prevents swipe blank space */
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
-  background-color: #FAF7F0;
+  background-color: #1C1C1E; /* dark gutters on desktop */
   color: #1C1C1E;
   font-family: 'Noto Sans', system-ui, sans-serif;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* Center the mobile shell on desktop */
+  display: flex;
+  justify-content: center;
+}
+
+/* ── Mobile shell — max 480px, full height ── */
+#root {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100dvh;
+  background-color: #FAF7F0;
+  position: relative;
+  overflow-x: hidden; /* THIS kills the swipe blank space */
+  /* Subtle shadow on desktop to show phone frame */
+  box-shadow: 0 0 40px rgba(0,0,0,0.35);
+}
+
+/* Make Tailwind's min-h-screen respect dynamic viewport on mobile */
+.min-h-screen {
+  min-height: 100dvh !important;
 }
 
 /* Ensure all interactive elements have large enough touch targets */
@@ -29,23 +52,16 @@ button, [role="button"] {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Smooth screen transitions */
+/* Smooth screen transitions
+   NOTE: translateX-based slide is clipped by #root overflow-x:hidden
+   so no horizontal blank space appears on swipe */
 .screen-enter {
-  animation: slideInRight 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: fadeSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-.screen-exit {
-  animation: slideOutLeft 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes slideInRight {
-  from { transform: translateX(100%); opacity: 0; }
+@keyframes fadeSlideIn {
+  from { transform: translateX(32px); opacity: 0; }
   to   { transform: translateX(0);    opacity: 1; }
-}
-
-@keyframes slideOutLeft {
-  from { transform: translateX(0);    opacity: 1; }
-  to   { transform: translateX(-100%); opacity: 0; }
 }
 
 /* Pulse animation for mic button */
