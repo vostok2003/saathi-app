@@ -135,7 +135,7 @@ export default function LoginScreen({ onAuthenticated }) {
                   ? 'border-rose-600 bg-rose-50'
                   : digit
                   ? 'border-sage-600 bg-sage-500/5'
-                  : 'border-cream-300 focus:border-sage-600'
+                  : 'border-charcoal-500/30 focus:border-sage-600'
                 }
               `}
               aria-label={`OTP digit ${i + 1}`}
@@ -197,9 +197,9 @@ export default function LoginScreen({ onAuthenticated }) {
 
       <div className="flex items-center gap-3 mb-3">
         {/* Country code badge */}
-        <div className="flex-shrink-0 h-16 px-4 rounded-2xl bg-white border-2 border-cream-300
+        <div className="flex-shrink-0 h-16 px-4 rounded-2xl bg-white border-2 border-charcoal-500/30
           flex items-center justify-center shadow-card">
-          <span className="text-xl font-bold text-charcoal-700">🇮🇳 +91</span>
+          <span className="text-xl font-bold text-charcoal-800">🇮🇳 +91</span>
         </div>
 
         <input
@@ -210,9 +210,10 @@ export default function LoginScreen({ onAuthenticated }) {
           value={phone}
           onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
           placeholder="98765 43210"
+          autoComplete="tel"
           className="
-            flex-1 h-16 px-5 rounded-2xl border-2 border-cream-300 bg-white
-            text-2xl font-semibold text-charcoal-800 placeholder:text-charcoal-500/40
+            flex-1 h-16 px-5 rounded-2xl border-2 border-charcoal-500/30 bg-white
+            text-2xl font-semibold text-charcoal-800 placeholder:text-charcoal-500/60
             focus:border-sage-600 focus:outline-none transition-colors shadow-card
           "
           aria-label="Mobile number"

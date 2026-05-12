@@ -202,8 +202,8 @@ export default function OnboardingScreen({ onComplete }) {
             placeholder="jaise Ramesh, Savitri…"
             autoFocus
             className="
-              w-full px-5 py-4 rounded-2xl border-2 border-cream-300 bg-white
-              text-2xl font-semibold text-charcoal-800 placeholder:text-charcoal-500/40
+              w-full px-5 py-4 rounded-2xl border-2 border-charcoal-500/30 bg-white
+              text-2xl font-semibold text-charcoal-800 placeholder:text-charcoal-500/60
               focus:border-sage-600 focus:outline-none transition-colors shadow-card
             "
           />
