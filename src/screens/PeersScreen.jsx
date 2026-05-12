@@ -16,7 +16,7 @@ function getMatchLabel(score) {
 /* ── Voice note sent confirmation modal ── */
 function SentModal({ peer, onClose }) {
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 px-4 pb-6"
+    <div className="absolute inset-0 z-[100] flex items-end justify-center bg-black/50 px-4 pb-6"
       role="dialog" aria-modal="true">
       <div className="w-full bg-white rounded-3xl p-6 shadow-2xl">
         <div className="flex flex-col items-center text-center">
@@ -156,7 +156,7 @@ export default function PeersScreen({ user, onBack }) {
   }
 
   return (
-    <div className="min-h-screen bg-cream-100 flex flex-col pb-28 screen-enter">
+    <div className="min-h-full bg-cream-100 flex flex-col pb-emergency screen-enter relative">
 
       {/* ── Header ── */}
       <div className="flex items-center gap-3 px-5 pt-8 pb-5">
