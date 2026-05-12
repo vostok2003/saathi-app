@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Global resets for accessibility ── */
+/* ─────────────────────────────────────────
+   BASE RESETS
+───────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -11,93 +13,175 @@ html {
   font-size: 18px;
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  /* Kill horizontal scroll at the root — prevents swipe blank space */
-  overflow-x: hidden;
+  height: 100%;
 }
 
 body {
   margin: 0;
-  background-color: #1C1C1E; /* dark gutters on desktop */
+  height: 100%;
   color: #1C1C1E;
   font-family: 'Noto Sans', system-ui, sans-serif;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  /* Center the mobile shell on desktop */
-  display: flex;
-  justify-content: center;
+  /* Desktop: dark background behind the layout */
+  background-color: #F0EBE0;
 }
 
-/* ── Mobile shell — max 480px, full height ── */
+/* ─────────────────────────────────────────
+   ROOT — full-height flex row on desktop
+───────────────────────────────────────── */
 #root {
+  min-height: 100dvh;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: #F0EBE0;
+}
+
+/* ─────────────────────────────────────────
+   MOBILE SHELL  (the actual app column)
+   Full-width on mobile, 420px on desktop
+───────────────────────────────────────── */
+.app-shell {
   width: 100%;
-  max-width: 480px;
+  max-width: 420px;
   min-height: 100dvh;
   background-color: #FAF7F0;
   position: relative;
-  overflow-x: hidden; /* THIS kills the swipe blank space */
-  /* Subtle shadow on desktop to show phone frame */
-  box-shadow: 0 0 40px rgba(0,0,0,0.35);
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Crisp shadow on desktop */
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 8px 48px rgba(0,0,0,0.18);
+  flex-shrink: 0;
 }
 
-/* Make Tailwind's min-h-screen respect dynamic viewport on mobile */
-.min-h-screen {
-  min-height: 100dvh !important;
+/* ─────────────────────────────────────────
+   DESKTOP SIDEBAR  (right of the phone)
+   Hidden on mobile, visible ≥ 900px
+───────────────────────────────────────── */
+.desktop-sidebar {
+  display: none;
 }
 
-/* Ensure all interactive elements have large enough touch targets */
+@media (min-width: 900px) {
+  body {
+    background-color: #2C2C2E;
+  }
+
+  #root {
+    background-color: #2C2C2E;
+    align-items: center;
+    gap: 0;
+  }
+
+  .app-shell {
+    /* Fixed phone-like height on desktop */
+    min-height: min(100dvh, 860px);
+    max-height: 100dvh;
+    border-radius: 32px;
+    margin: 24px 0 24px 48px;
+    flex-shrink: 0;
+  }
+
+  .desktop-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 48px 48px 48px 40px;
+    flex: 1;
+    max-width: 480px;
+    min-width: 0;
+  }
+}
+
+/* ─────────────────────────────────────────
+   SCREEN TRANSITIONS
+   Small translateX so no overflow bleed
+───────────────────────────────────────── */
+.screen-enter {
+  animation: fadeSlideIn 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes fadeSlideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+/* ─────────────────────────────────────────
+   TOUCH TARGETS
+───────────────────────────────────────── */
 button, [role="button"] {
-  min-height: 64px;
+  min-height: 56px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Smooth screen transitions
-   NOTE: translateX-based slide is clipped by #root overflow-x:hidden
-   so no horizontal blank space appears on swipe */
-.screen-enter {
-  animation: fadeSlideIn 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes fadeSlideIn {
-  from { transform: translateX(32px); opacity: 0; }
-  to   { transform: translateX(0);    opacity: 1; }
-}
-
-/* Pulse animation for mic button */
+/* ─────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────── */
 @keyframes pulse-ring {
   0%   { transform: scale(1);    opacity: 0.6; }
   70%  { transform: scale(1.35); opacity: 0;   }
   100% { transform: scale(1.35); opacity: 0;   }
 }
-
 .pulse-ring {
   animation: pulse-ring 1.6s ease-out infinite;
 }
 
-/* Gentle fade-in for cards */
 @keyframes fadeUp {
-  from { transform: translateY(16px); opacity: 0; }
+  from { transform: translateY(14px); opacity: 0; }
   to   { transform: translateY(0);    opacity: 1; }
 }
-
-.fade-up {
-  animation: fadeUp 0.4s ease forwards;
-}
-
+.fade-up   { animation: fadeUp 0.38s ease both; }
 .fade-up-1 { animation-delay: 0.05s; opacity: 0; }
-.fade-up-2 { animation-delay: 0.15s; opacity: 0; }
-.fade-up-3 { animation-delay: 0.25s; opacity: 0; }
-.fade-up-4 { animation-delay: 0.35s; opacity: 0; }
+.fade-up-2 { animation-delay: 0.13s; opacity: 0; }
+.fade-up-3 { animation-delay: 0.21s; opacity: 0; }
+.fade-up-4 { animation-delay: 0.29s; opacity: 0; }
 
-/* Focus ring for keyboard accessibility */
+/* ─────────────────────────────────────────
+   FOCUS RING
+───────────────────────────────────────── */
 :focus-visible {
   outline: 3px solid #5C7A5C;
   outline-offset: 3px;
   border-radius: 8px;
 }
 
-/* Scrollbar styling */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #FAF7F0; }
-::-webkit-scrollbar-thumb { background: #C8BFA8; border-radius: 3px; }
+/* ─────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────── */
+.app-shell::-webkit-scrollbar { width: 4px; }
+.app-shell::-webkit-scrollbar-track { background: transparent; }
+.app-shell::-webkit-scrollbar-thumb { background: #C8BFA8; border-radius: 4px; }
+
+/* Hide scrollbar on mobile but keep scroll */
+@media (max-width: 899px) {
+  .app-shell::-webkit-scrollbar { display: none; }
+  .app-shell { -ms-overflow-style: none; scrollbar-width: none; }
+}
+
+/* ─────────────────────────────────────────
+   EMERGENCY BAR — scoped to .app-shell
+   Uses sticky positioning so it always
+   stays at the bottom of the shell,
+   not the browser window
+───────────────────────────────────────── */
+.emergency-bar-wrap {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 8px 16px 16px;
+  background: linear-gradient(to top, #FAF7F0 60%, transparent);
+  pointer-events: none;
+  margin-top: auto;
+}
+.emergency-bar-wrap button {
+  pointer-events: auto;
+}
+
+/* Spacer so content doesn't hide behind emergency bar */
+.pb-emergency {
+  padding-bottom: 96px;
+}
