@@ -51,10 +51,10 @@ function getGreeting() {
   return 'Shubh Ratri'              // Good night
 }
 
-  /* ── Emergency modal — scoped inside shell ── */
+/* ── Emergency modal ── */
 function EmergencyModal({ onClose }) {
   return (
-    <div className="absolute inset-0 z-[100] flex items-end justify-center bg-black/50 px-4 pb-4"
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 px-4 pb-4"
       role="dialog" aria-modal="true" aria-label="Emergency call options">
       <div className="w-full bg-white rounded-3xl p-6 shadow-2xl">
         <h2 className="text-2xl font-bold text-charcoal-800 mb-1">Call for Help</h2>
@@ -87,7 +87,7 @@ export default function DashboardScreen({ user, onNavigate }) {
   const [showEmergency, setShowEmergency] = useState(false)
 
   return (
-    <div className="min-h-full bg-cream-100 flex flex-col pb-emergency screen-enter relative">
+    <div className="min-h-screen bg-cream-100 flex flex-col pb-28 screen-enter">
 
       {/* ── Top bar ── */}
       <div className="flex items-center justify-between px-5 pt-8 pb-4">

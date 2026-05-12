@@ -164,7 +164,7 @@ export default function WisdomScreen({ user, onBack }) {
   }
 
   return (
-    <div className="min-h-full bg-cream-100 flex flex-col pb-emergency screen-enter">
+    <div className="min-h-screen bg-cream-100 flex flex-col pb-28 screen-enter">
 
       {/* ── Header ── */}
       <div className="flex items-center gap-3 px-5 pt-8 pb-5">
